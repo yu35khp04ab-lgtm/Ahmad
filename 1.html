@@ -1,0 +1,380 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أحمد بندقجي | مهندس شبكات</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#081019;
+    --bg-panel:#0e1b2b;
+    --bg-panel-2:#101f31;
+    --line:#1c2f45;
+    --accent:#39e6c0;
+    --accent-2:#4fb3ff;
+    --accent-dim:#1f4a44;
+    --text:#e7eef5;
+    --text-muted:#8ba0b8;
+    --text-faint:#5b7086;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Tajawal', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:.18;
+    pointer-events:none;
+    z-index:0;
+  }
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px; position:relative; z-index:1;}
+ 
+  /* NAV */
+  nav{
+    position:sticky; top:0; z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(8,16,25,.85);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px;}
+  .brand{font-family:var(--mono); font-weight:700; font-size:15px; letter-spacing:.5px; color:var(--text); display:flex; align-items:center; gap:8px;}
+  .brand .dot{width:8px;height:8px;border-radius:50%;background:var(--accent); box-shadow:0 0 8px var(--accent); flex-shrink:0;}
+  .navlinks{display:flex; gap:28px; font-family:var(--mono); font-size:13px;}
+  .navlinks a{color:var(--text-muted); text-decoration:none; transition:color .2s; position:relative;}
+  .navlinks a:hover{color:var(--accent);}
+  .navlinks{display:none;}
+  @media(min-width:760px){ .navlinks{display:flex;} }
+ 
+  /* HERO */
+  header.hero{padding:96px 0 72px; position:relative;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--accent);
+    letter-spacing:2px; text-transform:uppercase; margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:"//"; color:var(--text-faint);}
+  h1.name{
+    font-size:clamp(34px,6vw,58px);
+    font-weight:900;
+    line-height:1.15;
+    margin-bottom:10px;
+    background:linear-gradient(90deg, var(--text) 30%, var(--accent-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .role{
+    font-family:var(--mono); font-size:clamp(15px,2.4vw,20px);
+    color:var(--text-muted); margin-bottom:28px; letter-spacing:.3px;
+  }
+  .role .cursor{display:inline-block; width:9px; height:1.1em; background:var(--accent); margin-inline-start:4px; vertical-align:text-bottom; animation:blink 1s steps(1) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+  .about-text{max-width:640px; color:var(--text-muted); font-size:16.5px; margin-bottom:34px;}
+  .about-text b{color:var(--text); font-weight:700;}
+  .hero-cta{display:flex; gap:14px; flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono); font-size:13.5px; padding:12px 22px; border-radius:6px;
+    text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:.2s;
+    border:1px solid var(--line);
+  }
+  .btn-primary{background:var(--accent); color:#052620; font-weight:700; border-color:var(--accent);}
+  .btn-primary:hover{box-shadow:0 0 22px rgba(57,230,192,.35); transform:translateY(-1px);}
+  .btn-ghost{color:var(--text); background:transparent;}
+  .btn-ghost:hover{border-color:var(--accent-2); color:var(--accent-2);}
+ 
+  /* NETWORK DIAGRAM SIGNATURE */
+  .topo{margin-top:56px; border:1px solid var(--line); border-radius:12px; background:var(--bg-panel); padding:18px; overflow:hidden;}
+  .topo-label{font-family:var(--mono); font-size:11px; color:var(--text-faint); margin-bottom:10px; display:flex; justify-content:space-between;}
+  .topo svg{width:100%; height:auto; display:block;}
+  .topo .link{stroke:var(--line); stroke-width:1.5;}
+  .topo .node-ring{fill:none; stroke:var(--accent-dim); stroke-width:1.5;}
+  .topo .node{fill:var(--bg-panel-2); stroke:var(--accent-2); stroke-width:1.6;}
+  .topo .node.core{stroke:var(--accent);}
+  .topo text.lbl{font-family:var(--mono); font-size:9px; fill:var(--text-faint);}
+  .packet{fill:var(--accent); filter:drop-shadow(0 0 4px var(--accent));}
+  @media (prefers-reduced-motion:no-preference){
+    .packet{ offset-rotate:0deg; animation:travel linear infinite; }
+  }
+ 
+  /* SECTION HEADS */
+  section{padding:64px 0; border-top:1px solid var(--line); position:relative;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:38px;}
+  .sec-num{font-family:var(--mono); color:var(--accent); font-size:14px;}
+  .sec-title{font-size:clamp(22px,3.2vw,30px); font-weight:900;}
+  .sec-title span{color:var(--text-faint); font-weight:400; font-size:.65em; margin-inline-start:8px;}
+ 
+  /* SKILLS */
+  .skills-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;}
+  .skill-card{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:10px; padding:20px;
+    transition:.2s;
+  }
+  .skill-card:hover{border-color:var(--accent-dim); transform:translateY(-2px);}
+  .skill-top{display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+  .skill-icon{width:34px; height:34px; border-radius:8px; background:var(--accent-dim); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .skill-icon svg{width:18px; height:18px; stroke:var(--accent);}
+  .skill-name{font-family:var(--mono); font-weight:600; font-size:15px;}
+  .skill-desc{color:var(--text-muted); font-size:13.5px;}
+ 
+  /* EXPERIENCE TIMELINE */
+  .timeline{position:relative; padding-inline-start:26px; border-inline-start:1px solid var(--line);}
+  .tl-item{position:relative; padding-bottom:36px;}
+  .tl-item:last-child{padding-bottom:0;}
+  .tl-dot{position:absolute; inset-inline-start:-31px; top:4px; width:11px; height:11px; border-radius:50%; background:var(--bg); border:2px solid var(--accent);}
+  .tl-period{font-family:var(--mono); font-size:12px; color:var(--accent-2); margin-bottom:6px;}
+  .tl-role{font-weight:700; font-size:17px; margin-bottom:4px;}
+  .tl-org{color:var(--text-muted); font-size:14.5px;}
+ 
+  /* PROJECTS */
+  .projects{display:flex; flex-direction:column; gap:18px;}
+  .proj-card{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:12px; padding:26px;
+    position:relative; overflow:hidden;
+  }
+  .proj-card::before{
+    content:""; position:absolute; top:0; inset-inline-start:0; width:3px; height:100%; background:linear-gradient(var(--accent), var(--accent-2));
+  }
+  .proj-tag{font-family:var(--mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; display:block;}
+  .proj-title{font-size:18px; font-weight:700; margin-bottom:10px;}
+  .proj-desc{color:var(--text-muted); font-size:14.5px;}
+ 
+  /* CERTS */
+  .certs{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px;}
+  .cert-card{background:var(--bg-panel); border:1px solid var(--line); border-radius:10px; padding:20px; display:flex; gap:14px; align-items:flex-start;}
+  .cert-icon{width:36px;height:36px;border-radius:8px;background:var(--accent-dim); flex-shrink:0; display:flex;align-items:center;justify-content:center;}
+  .cert-icon svg{width:18px;height:18px;stroke:var(--accent);}
+  .cert-name{font-weight:700; font-size:14.5px; margin-bottom:4px;}
+  .cert-period{font-family:var(--mono); font-size:12px; color:var(--text-faint);}
+ 
+  /* CONTACT */
+  .contact-panel{
+    background:var(--bg-panel); border:1px solid var(--line); border-radius:14px; padding:38px;
+    display:flex; flex-wrap:wrap; gap:28px; justify-content:space-between; align-items:center;
+  }
+  .contact-title{font-size:22px; font-weight:900; margin-bottom:8px;}
+  .contact-sub{color:var(--text-muted); font-size:14.5px; max-width:420px;}
+  .contact-links{display:flex; flex-direction:column; gap:10px; font-family:var(--mono); font-size:14px;}
+  .contact-links a{color:var(--accent-2); text-decoration:none; display:flex; align-items:center; gap:8px;}
+  .contact-links a:hover{color:var(--accent);}
+  .contact-links svg{width:15px;height:15px; stroke:currentColor; flex-shrink:0;}
+ 
+  footer{padding:32px 0; text-align:center; font-family:var(--mono); font-size:12px; color:var(--text-faint); border-top:1px solid var(--line);}
+ 
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+<body>
+ 
+<nav>
+  <div class="wrap">
+    <div class="brand"><span class="dot"></span>A.BENDAKJI</div>
+    <div class="navlinks">
+      <a href="#about">نبذة</a>
+      <a href="#skills">المهارات</a>
+      <a href="#experience">الخبرة</a>
+      <a href="#projects">المشاريع</a>
+      <a href="#certs">الشهادات</a>
+      <a href="#contact">تواصل</a>
+    </div>
+  </div>
+</nav>
+ 
+<header class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Network Engineer Portfolio</div>
+    <h1 class="name">أحمد محمد جلال الدين عمرو بندقجي</h1>
+    <div class="role">$ whoami <span style="color:var(--text)">— مهندس شبكات</span><span class="cursor"></span></div>
+    <p class="about-text" id="about">
+      أمتلك <b>معرفة أكاديمية قوية</b> في تصميم الشبكات وإدارتها وحمايتها، مع خبرة عملية في بناء بنى تحتية شبكية متكاملة، وتنفيذ حلول أمن سيبراني، وتهيئة أنظمة المراقبة والصيانة وفق أفضل الممارسات المؤسسية.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">شاهد المشاريع</a>
+      <a class="btn btn-ghost" href="#contact">تواصل معي</a>
+    </div>
+ 
+    <div class="topo">
+      <div class="topo-label"><span>TOPOLOGY // LIVE-TRAFFIC-SIM</span><span>3 SITES · SECURE LINKS</span></div>
+      <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="مخطط شبكة يوضح توصيل عدة مواقع بجهاز مركزي">
+        <defs>
+          <path id="p1" d="M 450 110 L 150 60"/>
+          <path id="p2" d="M 450 110 L 750 60"/>
+          <path id="p3" d="M 450 110 L 150 170"/>
+          <path id="p4" d="M 450 110 L 750 170"/>
+        </defs>
+        <line class="link" x1="450" y1="110" x2="150" y2="60"/>
+        <line class="link" x1="450" y1="110" x2="750" y2="60"/>
+        <line class="link" x1="450" y1="110" x2="150" y2="170"/>
+        <line class="link" x1="450" y1="110" x2="750" y2="170"/>
+ 
+        <circle class="node-ring" cx="450" cy="110" r="34"/>
+        <circle class="node core" cx="450" cy="110" r="22"/>
+        <text class="lbl" x="450" y="152" text-anchor="middle">CORE</text>
+ 
+        <circle class="node" cx="150" cy="60" r="14"/>
+        <text class="lbl" x="150" y="34" text-anchor="middle">SITE A</text>
+        <circle class="node" cx="750" cy="60" r="14"/>
+        <text class="lbl" x="750" y="34" text-anchor="middle">SITE B</text>
+        <circle class="node" cx="150" cy="170" r="14"/>
+        <text class="lbl" x="150" y="196" text-anchor="middle">FIREWALL</text>
+        <circle class="node" cx="750" cy="170" r="14"/>
+        <text class="lbl" x="750" y="196" text-anchor="middle">SITE C</text>
+ 
+        <circle class="packet" r="3.2"><animateMotion dur="3.4s" repeatCount="indefinite" path="M 450 110 L 150 60"/></circle>
+        <circle class="packet" r="3.2"><animateMotion dur="2.6s" begin="0.5s" repeatCount="indefinite" path="M 450 110 L 750 60"/></circle>
+        <circle class="packet" r="3.2"><animateMotion dur="3s" begin="1s" repeatCount="indefinite" path="M 450 110 L 150 170"/></circle>
+        <circle class="packet" r="3.2"><animateMotion dur="2.2s" begin="1.4s" repeatCount="indefinite" path="M 450 110 L 750 170"/></circle>
+      </svg>
+    </div>
+  </div>
+</header>
+ 
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">المهارات التقنية <span>Skills</span></h2></div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-top">
+          <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+          <div class="skill-name">Cisco</div>
+        </div>
+        <div class="skill-desc">تهيئة وإدارة أجهزة Cisco للتوجيه والتحويل ضمن بيئات مؤسسية.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top">
+          <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>
+          <div class="skill-name">MikroTik</div>
+        </div>
+        <div class="skill-desc">إعداد وضبط أجهزة MikroTik لإدارة الشبكات والتوجيه المتقدم.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top">
+          <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4z"/></svg></div>
+          <div class="skill-name">Firewall</div>
+        </div>
+        <div class="skill-desc">بناء وإدارة قواعد الحماية باستخدام جدران الحماية مثل Sophos XG.</div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top">
+          <div class="skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/><path d="M7 10v4M17 10v4"/></svg></div>
+          <div class="skill-name">Routing & Switching</div>
+        </div>
+        <div class="skill-desc">تصميم الهيكلية الشبكية وربط المواقع بشكل آمن وفعّال.</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">الخبرة العملية <span>Experience</span></h2></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <span class="tl-dot"></span>
+        <div class="tl-period">2024 — 2025</div>
+        <div class="tl-role">مدرّس — هندسة شبكات</div>
+        <div class="tl-org">جامعة دمشق، المعهد التقاني للحاسوب</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="projects">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">المشاريع <span>Projects</span></h2></div>
+    <div class="projects">
+      <div class="proj-card">
+        <span class="proj-tag">Infrastructure · Security</span>
+        <div class="proj-title">بنية تحتية شبكية متكاملة لشركة تجهيزات طبية</div>
+        <div class="proj-desc">
+          قيادة وتنفيذ مشروع شامل تضمّن تصميم الهيكلية الشبكية، والربط الآمن بين المواقع باستخدام تقنيات التشفير، وتنفيذ حلول أمن سيبراني متقدمة، مع تهيئة أنظمة إدارة ومراقبة وصيانة الشبكة وفق أفضل الممارسات المؤسسية.
+        </div>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">Sophos XG · Access Control</span>
+        <div class="proj-title">قواعد حظر وسماح على جدار حماية Sophos XG</div>
+        <div class="proj-desc">
+          إعداد قواعد حظر لمكالمات WhatsApp، وحظر الوصول إلى Facebook وYouTube، من خلال سياسات حظر وسماح مضبوطة على جدار الحماية.
+        </div>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">Lab · Attack Simulation</span>
+        <div class="proj-title">محاكاة هجمات MAC Flooding وDHCP Spoofing</div>
+        <div class="proj-desc">
+          بناء مختبرات محاكاة لهجمات MAC Flood وDHCP Spoofing على محاكيات شبكية، مع تطبيق طرق الحماية المضادة لها ولهجمات أخرى مشابهة.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="certs">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">الشهادات <span>Certificates</span></h2></div>
+    <div class="certs">
+      <div class="cert-card">
+        <div class="cert-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 3 7l9 5 9-5-9-5z"/><path d="M3 12l9 5 9-5"/></svg></div>
+        <div>
+          <div class="cert-name">جامعة دمشق</div>
+          <div class="cert-period">2024 — 2025</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 2 3 7l9 5 9-5-9-5z"/><path d="M3 12l9 5 9-5"/></svg></div>
+        <div>
+          <div class="cert-name">المعهد التقاني للحاسوب — هندسة شبكات</div>
+          <div class="cert-period">2024 — 2025</div>
+        </div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8 13 6 22l6-3 6 3-2-9"/></svg></div>
+        <div>
+          <div class="cert-name">الجمعية العلمية السورية للمعلوماتية — شهادة NPA بإدارة الشبكات</div>
+          <div class="cert-period">Certified</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<section id="contact">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">تواصل معي <span>Contact</span></h2></div>
+    <div class="contact-panel">
+      <div>
+        <div class="contact-title">لنبنِ شبكة أعمال آمنة معاً</div>
+        <div class="contact-sub">متاح للعمل على مشاريع تصميم الشبكات، الأمن السيبراني، وإدارة البنية التحتية.</div>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:ahmadbandakji204@gmail.com">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
+          ahmadbandakji204@gmail.com
+        </a>
+        <a href="tel:+963936966972">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8 9.5a16 16 0 0 0 6 6l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg>
+          +963 936 966 972
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<footer>
+  © 2026 Ahmad Bendakji — Network Engineer Portfolio
+</footer>
+ 
+</body>
+</html>
